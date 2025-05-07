@@ -1,0 +1,20 @@
+analyze_question:
+  description: >
+    Analyse la question suivante : "{user_message}".
+    Détermine le ou les sujets abordés (ex: inscription, clubs, événements, attestations, profil...).
+  expected_output: >
+    Une courte phrase listant les sujets identifiés dans la question.
+
+find_information:
+  description: >
+    À partir des sujets détectés : {identified_topics}, cherche les informations les plus pertinentes dans le contexte suivant : {context}.
+  expected_output: >
+    Un résumé des informations clés à inclure dans la réponse, extraites du contexte donné.
+
+write_final_answer:
+  description: >
+    Rédige une réponse claire, conviviale et engageante à la question de l’étudiant : "{user_message}".
+    Utilise les informations suivantes : {relevant_information}.
+    Inspire-toi du ton utilisé dans ce contexte : {context}.
+  expected_output: >
+    Un paragraphe ou deux maximum, structuré, fluide et adapté à un étudiant ISI.

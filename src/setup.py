@@ -1,13 +1,14 @@
 import os
-from crewai import Agent, Task, Crew, Process
+from crewai import Agent, Task, Crew, Process, LLM
 from crewai.project import CrewBase, agent, task, crew
-from groq import Groq
+from dotenv import load_dotenv
 
-# Init LLM
-llm = Groq(
-    model="llama-3.1-70b-versatile",
-    api_key=os.environ["GROQ_API_KEY"],
-)
+# Load environment variables
+load_dotenv()
+
+# API keys
+API_KEY = os.getenv('API_KEY')
+LLM_MODEL = os.getenv('LLM_MODEL')
 
 @CrewBase
 class CrewaiConversationalChatbotCrew:
@@ -16,32 +17,36 @@ class CrewaiConversationalChatbotCrew:
     agents_config = "config/agents.yaml"
     tasks_config = "config/tasks.yaml"
 
-    # AGENTS ----------------------
+    # Init LLM
+    _llm = LLM(
+        model=LLM_MODEL,
+        base_url="https://api.groq.com/openai/v1/",
+        api_key=API_KEY,
+        temperature=0.4
+    )
 
+    # AGENTS ----------------------
     @agent
     def isiklub_question_analyst(self) -> Agent:
         return Agent(
-            config="isiklub_question_analyst",
-            llm= LLM(
-                model="groq/gemma2-9b-it",
-                temperature=0.7
-            ),
+            config=self.agents_config['isiklub_question_analyst'],
+            llm= self._llm,
             verbose=True,
         )
 
     @agent
     def isiklub_knowledge_specialist(self) -> Agent:
         return Agent(
-            config="isiklub_knowledge_specialist",
-            llm=llm,
+            config=self.agents_config['isiklub_knowledge_specialist'],
+            llm= self._llm,
             verbose=True,
         )
 
-    @agent
+    agent
     def isiklub_answer_writer(self) -> Agent:
         return Agent(
-            config="isiklub_answer_writer",
-            llm=llm,
+            config=self.agents_config['isiklub_answer_writer'],
+            llm= self._llm,
             verbose=True,
         )
 
@@ -50,21 +55,21 @@ class CrewaiConversationalChatbotCrew:
     @task
     def analyze_question(self) -> Task:
         return Task(
-            config="analyze_question",
+            config=self.tasks_config['analyze_question'],
             agent=self.isiklub_question_analyst()
         )
 
     @task
     def find_information(self) -> Task:
         return Task(
-            config="find_information",
+            config=self.tasks_config['find_information'],
             agent=self.isiklub_knowledge_specialist()
         )
 
     @task
     def write_final_answer(self) -> Task:
         return Task(
-            config="write_final_answer",
+            config=self.tasks_config['write_final_answer'],
             agent=self.isiklub_answer_writer()
         )
 

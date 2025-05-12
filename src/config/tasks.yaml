@@ -1,20 +1,37 @@
 analyze_question:
   description: >
-    Analyse la question suivante : "{user_message}".
-    Détermine le ou les sujets abordés (ex: inscription, clubs, événements, attestations, profil...).
+    Tu es un agent spécialisé dans la compréhension des intentions utilisateur.
+    Analyse attentivement la question suivante : "{user_message}".
+    Identifie clairement les sujets principaux abordés dans cette question, comme par exemple :
+    - inscription
+    - clubs
+    - événements
+    - attestations
+    - profil utilisateur
+    - fonctionnalités générales de la plateforme ISIKlub
+    - ou tout autre sujet pertinent.
+    Cette analyse doit aider à orienter la recherche d'information utile pour répondre précisément à la demande de l'étudiant.
   expected_output: >
-    Une courte phrase listant les sujets identifiés dans la question.
+    Un court résumé listant un ou plusieurs sujets identifiés dans la question.
 
 find_information:
   description: >
-    À partir des sujets détectés : {identified_topics}, cherche les informations les plus pertinentes dans le contexte suivant : {context}.
+    En tant qu'expert de la plateforme ISIKlub, utilise les sujets détectés à l'étape précédente
+    pour rechercher les informations les plus pertinentes à inclure dans la réponse.
+    Appuie-toi sur ta connaissance du fonctionnement d'ISIKlub : ses outils, ses services,
+    ses fonctionnalités, son interface utilisateur, ses canaux de support et ses bonnes pratiques.
+    L’objectif est de compiler un ensemble d’informations claires, concrètes et adaptées à la demande initiale.
   expected_output: >
-    Un résumé des informations clés à inclure dans la réponse, extraites du contexte donné.
+    Un résumé bien structuré contenant les informations clés à inclure dans la réponse finale,
+    en lien direct avec les sujets détectés et les besoins potentiels de l'étudiant.
 
 write_final_answer:
   description: >
-    Rédige une réponse claire, conviviale et engageante à la question de l’étudiant : "{user_message}".
-    Utilise les informations suivantes : {relevant_information}.
-    Inspire-toi du ton utilisé dans ce contexte : {context}.
+    Tu es un assistant virtuel ISIKlub chargé de rédiger une réponse claire, amicale et engageante
+    à l'étudiant qui a posé la question suivante : "{user_message}".
+    Tu dois t’appuyer sur les informations fournies par la tâche précédente ('find_information').
+    Ta réponse doit être personnalisée, fluide, rassurante et dans un ton adapté à un étudiant universitaire.
+    Sois structuré dans ta réponse, et évite les termes trop techniques ou impersonnels.
+    Ton but est de guider l’étudiant efficacement tout en renforçant la confiance envers ISIKlub.
   expected_output: >
-    Un paragraphe ou deux maximum, structuré, fluide et adapté à un étudiant ISI.
+    Un ou deux paragraphes maximum, bien rédigés, facilement compréhensibles, et adaptés à un étudiant ISI.
